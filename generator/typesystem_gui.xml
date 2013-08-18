@@ -1619,14 +1619,14 @@
     <modify-function signature="qAccessibleTableCastHelper()" remove="all"/>
   </object-type>
 
-  <value-type name="QAccessibleInterface">
+  <object-type name="QAccessibleInterface">
     <modify-function signature="indexOfChild(const QAccessibleInterface*)const">
         <modify-argument invalidate-after-use="yes" index="1"/>
     </modify-function>
     <modify-function signature="relationTo(int,const QAccessibleInterface*,int)const">
         <modify-argument invalidate-after-use="yes" index="2"/>
     </modify-function>
-  </value-type>
+  </object-type>
   <object-type name="QAccessibleInterfaceEx"/>
   <object-type name="QAccessibleObject"/>
   <object-type name="QAccessibleObjectEx"/>

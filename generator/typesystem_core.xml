@@ -1457,7 +1457,7 @@
   <object-type name="QAbstractState"/>
   <object-type name="QAbstractTransition"/>
   <object-type name="QState">
-    <modify-function signature="addTransition(QObject*,const char*,QAbstractState*)">
+    <modify-function signature="addTransition(const QObject*,const char*,QAbstractState*)">
       <modify-argument index="2">
         <replace-type modified-type="QString"/>
         <conversion-rule class="native">

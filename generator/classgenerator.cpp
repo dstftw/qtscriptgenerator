@@ -186,11 +186,43 @@ static QString builtinTypeTesterFunction(const QString &typeName)
         return QLatin1String("isNumber");
     else if (typeName == QLatin1String("int"))
         return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("unsigned int"))
+        return QLatin1String("isNumber");
     else if (typeName == QLatin1String("uint"))
         return QLatin1String("isNumber");
     else if (typeName == QLatin1String("short"))
         return QLatin1String("isNumber");
     else if (typeName == QLatin1String("unsigned short"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("ushort"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("long"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("unsigned long"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("ulong"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("qint8"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("quint8"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("qint16"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("quint16"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("qint32"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("quint32"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("qint64"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("qlonglong"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("quint64"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("qulonglong"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("qreal"))
         return QLatin1String("isNumber");
     else if (typeName == QLatin1String("bool"))
         return QLatin1String("isBoolean");

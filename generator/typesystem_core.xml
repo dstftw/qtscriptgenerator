@@ -563,6 +563,7 @@
   <enum-type name="Qt::Axis"/>
   <enum-type name="Qt::AnchorAttribute"/>
   <enum-type name="Qt::ApplicationAttribute"/>
+  <enum-type name="Qt::ApplicationState" flags="Qt::ApplicationStates"/>
   <enum-type name="Qt::ArrowType"/>
   <enum-type name="Qt::AspectRatioMode"/>
   <enum-type name="Qt::BGMode"/>
@@ -577,13 +578,14 @@
   <enum-type name="Qt::DayOfWeek"/>
   <enum-type name="Qt::DockWidgetAreaSizes"/>
   <enum-type name="Qt::DropAction" flags="Qt::DropActions"/>
+  <enum-type name="Qt::Edge"/>
   <enum-type name="Qt::FillRule"/>
   <enum-type name="Qt::FindChildOption" flags="Qt::FindChildOptions"/>
   <enum-type name="Qt::FocusPolicy"/>
   <enum-type name="Qt::FocusReason"/>
   <enum-type name="Qt::GlobalColor"/>
   <enum-type name="Qt::HitTestAccuracy"/>
-  <enum-type name="Qt::InputMethodQuery"/>
+  <enum-type name="Qt::InputMethodQuery" flags="Qt::InputMethodQueries"/>
   <enum-type name="Qt::ItemFlag" flags="Qt::ItemFlags"/>
   <enum-type name="Qt::ItemSelectionMode"/>
   <enum-type name="Qt::KeyboardModifier" flags="Qt::KeyboardModifiers"/>
@@ -1060,7 +1062,24 @@
   <object-type name="QReadWriteLock"/>
   <object-type name="QDirIterator"/>
   <object-type name="QAbstractFileEngineIterator"/>
-  <object-type name="QAbstractItemModel"/>
+  <object-type name="QAbstractItemModel">
+    <modify-function signature="encodeData(const QList&lt;QModelIndex&gt; &amp;, QDataStream &amp;) const">
+      <modify-argument index="2">
+        <replace-type modified-type="QDataStream*"/>
+        <conversion-rule class="native">
+        QDataStream &amp; %out% = *qscriptvalue_cast&lt;QDataStream*&gt;(%in%);
+        </conversion-rule>
+      </modify-argument>
+    </modify-function>
+    <modify-function signature="decodeData(int, int, const QModelIndex &amp;, QDataStream &amp;)">
+      <modify-argument index="4">
+        <replace-type modified-type="QDataStream*"/>
+        <conversion-rule class="native">
+        QDataStream &amp; %out% = *qscriptvalue_cast&lt;QDataStream*&gt;(%in%);
+        </conversion-rule>
+      </modify-argument>
+    </modify-function>
+  </object-type>
 
   <object-type name="QAbstractListModel">
     <extra-includes>
@@ -1457,7 +1476,7 @@
   <object-type name="QAbstractState"/>
   <object-type name="QAbstractTransition"/>
   <object-type name="QState">
-    <modify-function signature="addTransition(QObject*,const char*,QAbstractState*)">
+    <modify-function signature="addTransition(const QObject*,const char*,QAbstractState*)">
       <modify-argument index="2">
         <replace-type modified-type="QString"/>
         <conversion-rule class="native">

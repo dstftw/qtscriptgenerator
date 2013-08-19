@@ -47,7 +47,7 @@
 
 #include <qdebug.h>
 
-#define GENERATOR_NO_PROTECTED_FUNCTIONS
+//#define GENERATOR_NO_PROTECTED_FUNCTIONS
 
 ClassGenerator::ClassGenerator(PriGenerator *pri, SetupGenerator *setup) :
     priGenerator(pri),
@@ -186,11 +186,43 @@ static QString builtinTypeTesterFunction(const QString &typeName)
         return QLatin1String("isNumber");
     else if (typeName == QLatin1String("int"))
         return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("unsigned int"))
+        return QLatin1String("isNumber");
     else if (typeName == QLatin1String("uint"))
         return QLatin1String("isNumber");
     else if (typeName == QLatin1String("short"))
         return QLatin1String("isNumber");
     else if (typeName == QLatin1String("unsigned short"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("ushort"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("long"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("unsigned long"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("ulong"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("qint8"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("quint8"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("qint16"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("quint16"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("qint32"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("quint32"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("qint64"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("qlonglong"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("quint64"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("qulonglong"))
+        return QLatin1String("isNumber");
+    else if (typeName == QLatin1String("qreal"))
         return QLatin1String("isNumber");
     else if (typeName == QLatin1String("bool"))
         return QLatin1String("isBoolean");
@@ -1281,18 +1313,18 @@ static void writePrototypeCall(QTextStream &s, const AbstractMetaClass *meta_cla
     // cast the thisObject to C++ type
     s << "    ";
 #ifndef GENERATOR_NO_PROTECTED_FUNCTIONS
-    if (meta_class->hasProtectedFunctions())
+    if (meta_class->hasOrHadProtectedFunctions())
         s << "qtscript_";
 #endif
     s << meta_class->qualifiedCppName() << "* _q_self = ";
 #ifndef GENERATOR_NO_PROTECTED_FUNCTIONS
-    if (meta_class->hasProtectedFunctions())
+    if (meta_class->hasOrHadProtectedFunctions())
         s << "reinterpret_cast<qtscript_" << meta_class->name() << "*>(";
 #endif
     s << "qscriptvalue_cast<" << meta_class->qualifiedCppName()
       << "*>(context->thisObject())";
 #ifndef GENERATOR_NO_PROTECTED_FUNCTIONS
-    if (meta_class->hasProtectedFunctions())
+    if (meta_class->hasOrHadProtectedFunctions())
         s << ")";
 #endif
     s << ";" << endl
@@ -1494,6 +1526,22 @@ static void writeFunctionSignaturesString(QTextStream &s, const AbstractMetaFunc
     s << "\"";
 }
 
+static void writeFriendlyQMetaTypeIdForProtectedEnums(QTextStream &s, const AbstractMetaClassList &meta_classes, const AbstractMetaClass *meta_class)
+{
+    if (!meta_class)
+        return;
+    // write friendly QMetaTypeId specializations
+    foreach (const AbstractMetaEnum *enom, meta_class->enums()) {
+        if (enom && enom->wasProtected())
+            s << "    friend struct QMetaTypeId< " << meta_class->name() << "::" << enom->name() << " >;" << endl;
+    }
+    // process base classes
+    foreach (const QString base_class_name, meta_class->baseClassNames()) {
+        const AbstractMetaClass *base_class = meta_classes.findClass(base_class_name);
+        writeFriendlyQMetaTypeIdForProtectedEnums(s, meta_classes, base_class);
+    }
+}
+
 /*!
   Writes the whole native binding for the class \a meta_class.
 */
@@ -1643,7 +1691,10 @@ void ClassGenerator::write(QTextStream &stream, const AbstractMetaClass *meta_cl
     stream << "};" << endl << endl;
 
 #ifndef GENERATOR_NO_PROTECTED_FUNCTIONS
-    if (meta_class->hasProtectedFunctions()) {
+    if (meta_class->hasOrHadProtectedFunctions()) {
+        // prototype_call declaration
+        stream << "static QScriptValue qtscript_" << meta_class->name()
+               << "_prototype_call(QScriptContext *, QScriptEngine *);" << endl << endl;
         // write a friendly class
         stream << "class qtscript_" << meta_class->name()
                << " : public " << meta_class->qualifiedCppName() << endl;
@@ -1666,6 +1717,13 @@ void ClassGenerator::write(QTextStream &stream, const AbstractMetaClass *meta_cl
                 }
             }
         }
+        stream << endl;
+        // write prototype_call as friendly function
+        stream << "    friend QScriptValue qtscript_" << meta_class->name()
+               << "_prototype_call(QScriptContext *, QScriptEngine *);" << endl << endl;
+        // write all Q_DECLARE_METATYPE(enum) as friendly classes for all protected enums
+        // in meta_class' hierarchy
+        writeFriendlyQMetaTypeIdForProtectedEnums(stream, m_classes, meta_class);
         stream << "};" << endl;
         stream << endl;
     }

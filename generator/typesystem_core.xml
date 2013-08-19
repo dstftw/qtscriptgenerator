@@ -1060,7 +1060,24 @@
   <object-type name="QReadWriteLock"/>
   <object-type name="QDirIterator"/>
   <object-type name="QAbstractFileEngineIterator"/>
-  <object-type name="QAbstractItemModel"/>
+  <object-type name="QAbstractItemModel">
+    <modify-function signature="encodeData(const QList&lt;QModelIndex&gt; &amp;, QDataStream &amp;) const">
+      <modify-argument index="2">
+        <replace-type modified-type="QDataStream*"/>
+        <conversion-rule class="native">
+        QDataStream &amp; %out% = *qscriptvalue_cast&lt;QDataStream*&gt;(%in%);
+        </conversion-rule>
+      </modify-argument>
+    </modify-function>
+    <modify-function signature="decodeData(int, int, const QModelIndex &amp;, QDataStream &amp;)">
+      <modify-argument index="4">
+        <replace-type modified-type="QDataStream*"/>
+        <conversion-rule class="native">
+        QDataStream &amp; %out% = *qscriptvalue_cast&lt;QDataStream*&gt;(%in%);
+        </conversion-rule>
+      </modify-argument>
+    </modify-function>
+  </object-type>
 
   <object-type name="QAbstractListModel">
     <extra-includes>

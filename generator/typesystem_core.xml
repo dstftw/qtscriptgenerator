@@ -563,6 +563,7 @@
   <enum-type name="Qt::Axis"/>
   <enum-type name="Qt::AnchorAttribute"/>
   <enum-type name="Qt::ApplicationAttribute"/>
+  <enum-type name="Qt::ApplicationState" flags="Qt::ApplicationStates"/>
   <enum-type name="Qt::ArrowType"/>
   <enum-type name="Qt::AspectRatioMode"/>
   <enum-type name="Qt::BGMode"/>
@@ -577,13 +578,14 @@
   <enum-type name="Qt::DayOfWeek"/>
   <enum-type name="Qt::DockWidgetAreaSizes"/>
   <enum-type name="Qt::DropAction" flags="Qt::DropActions"/>
+  <enum-type name="Qt::Edge"/>
   <enum-type name="Qt::FillRule"/>
   <enum-type name="Qt::FindChildOption" flags="Qt::FindChildOptions"/>
   <enum-type name="Qt::FocusPolicy"/>
   <enum-type name="Qt::FocusReason"/>
   <enum-type name="Qt::GlobalColor"/>
   <enum-type name="Qt::HitTestAccuracy"/>
-  <enum-type name="Qt::InputMethodQuery"/>
+  <enum-type name="Qt::InputMethodQuery" flags="Qt::InputMethodQueries"/>
   <enum-type name="Qt::ItemFlag" flags="Qt::ItemFlags"/>
   <enum-type name="Qt::ItemSelectionMode"/>
   <enum-type name="Qt::KeyboardModifier" flags="Qt::KeyboardModifiers"/>

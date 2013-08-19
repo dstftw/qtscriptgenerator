@@ -142,6 +142,7 @@
   <enum-type name="QAccessible::State"/>
 <!--  <enum-type name="QAccessible::StateFlag" flags="QAccessible::State"/> --> <!--### Not in Qt 5 -->
   <enum-type name="QAccessible::Text"/>
+  <enum-type name="QAccessible::TextBoundaryType"/>
   <enum-type name="QDesktopServices::StandardLocation"/>
   <enum-type name="QDirModel::Roles"/>
   <enum-type name="QFont::Capitalization"/>
@@ -5608,6 +5609,7 @@
   <object-type name="QWindow"/>
   <rejection class="QWindow" function-name="accessibleRoot"/>
   <enum-type name="QWindow::AncestorMode"/>
+  <enum-type name="QWindow::Visibility"/>
   <object-type name="QSurface"/>
   <enum-type name="QSurface::SurfaceType"/>
   <enum-type name="QSurface::SurfaceClass"/>
